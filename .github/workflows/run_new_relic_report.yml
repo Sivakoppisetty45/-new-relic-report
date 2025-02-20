@@ -1,0 +1,27 @@
+name: Run New Relic Report
+
+on:
+  workflow_dispatch:  # Allows you to trigger it manually
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest  # Runs on a Linux machine in GitHub Actions
+
+    env:
+      NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}  # Fetch API key securely
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests pandas python-dotenv
+
+      - name: Run Script
+        run: python new_relic_report.py
